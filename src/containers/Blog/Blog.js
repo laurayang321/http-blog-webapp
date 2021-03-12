@@ -10,13 +10,14 @@ class Blog extends Component {
 
     state = {
         posts: [],
-        selectedPostId: null
+        selectedPostId: null,
+        error: false
     }
 
     // then() takes a function as input. 
     // The function will get executed once the promise resolves - once the data from backend is returned.
     componentDidMount() {
-        axios.get('https://jsonplaceholder.typicode.com/posts')
+        axios.get('https://jsonplaceholder.typicode.com/postssss')
             // the function then receives a response object as an input 
             .then(response => {
                 const posts = response.data.slice(0, 4);
@@ -28,6 +29,10 @@ class Blog extends Component {
                 })
                 this.setState({posts: updatedPosts}); // inside the then block is the right place
                 // console.log(response);
+            } )
+            .catch(error => {
+                // console.log(error);
+                this.setState({error: true});
             });
         // this.setState(); // if call setState immediately after get, the data wouldn't be fetched yet
     }
@@ -37,13 +42,16 @@ class Blog extends Component {
     }
 
     render () {
-        const posts = this.state.posts.map(post => {
-            return <Post
-                        key={post.id} 
-                        title={post.title}
-                        author={post.author}
-                        clicked={() => this.postSelectedHandler(post.id)} />
-        });
+        let posts = <p style={{textAlign: 'center'}}>Something went wrong!</p>
+        if (!this.state.error) {
+            posts = this.state.posts.map(post => {
+                return <Post
+                            key={post.id} 
+                            title={post.title}
+                            author={post.author}
+                            clicked={() => this.postSelectedHandler(post.id)} />
+            });
+        }
 
         return (
             <div>
