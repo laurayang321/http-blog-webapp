@@ -18,7 +18,14 @@ class Blog extends Component {
         axios.get('https://jsonplaceholder.typicode.com/posts')
             // the function then receives a response object as an input 
             .then(response => {
-                this.setState({posts: response.data}); // inside the then block is the right place
+                const posts = response.data.slice(0, 4);
+                const updatedPosts = posts.map(post => {
+                    return {
+                        ...post,
+                        author: 'Max'
+                    }
+                })
+                this.setState({posts: updatedPosts}); // inside the then block is the right place
                 // console.log(response);
             });
         // this.setState(); // if call setState immediately after get, the data wouldn't be fetched yet
@@ -28,16 +35,14 @@ class Blog extends Component {
         const posts = this.state.posts.map(post => {
             return <Post
                         key={post.id} 
-                        title={post.title} />
+                        title={post.title}
+                        author={post.author} />
         });
 
         return (
             <div>
                 <section className='Posts'>
                     {posts}
-                    {/* <Post />
-                    <Post />
-                    <Post /> */}
                 </section>
                 <section>
                     <FullPost />
