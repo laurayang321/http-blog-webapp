@@ -17,7 +17,7 @@ class Blog extends Component {
     // then() takes a function as input. 
     // The function will get executed once the promise resolves - once the data from backend is returned.
     componentDidMount() {
-        axios.get('https://jsonplaceholder.typicode.com/postssss')
+        axios.get('/posts')
             // the function then receives a response object as an input 
             .then(response => {
                 const posts = response.data.slice(0, 4);

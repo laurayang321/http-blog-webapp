@@ -14,6 +14,10 @@ import axios from 'axios';
 // useful for: setting some common headers like authorization headers or 
 // for responses if you want to log responses or want to handle errors globally
 
+axios.defaults.baseURL = 'https://jsonplaceholder.typicode.com';
+axios.defaults.headers.common['Authorization'] = 'AUTH TOKEN';
+axios.defaults.headers.post['Content-Type'] = 'application/json';
+
 // this is the most global file in the app
 axios.interceptors.request.use(request => {
     console.log(request);
