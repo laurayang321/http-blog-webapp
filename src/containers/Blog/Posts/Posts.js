@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import axios from '../../../axios';
-import { Link } from 'react-router-dom';
+import { Route, Link } from 'react-router-dom';
 
 import Post from '../../../components/Post/Post';
 import './Posts.css';
+import FullPost from '../FullPost/FullPost';
+
 
 class Posts extends Component {
 
@@ -36,9 +38,9 @@ class Posts extends Component {
         // this.setState(); // if call setState immediately after get, the data wouldn't be fetched yet
     }
 
-    postSelectedHandler = (id) => {
+    postSelectedHandler = ( id ) => {
         // this.props.history.push({pathname: '/' + id});
-        this.props.history.push('/' + id);
+        this.props.history.push( '/posts/' + id );
         // this.setState({selectedPostId: id});
     }
 
@@ -50,17 +52,23 @@ class Posts extends Component {
                 return (
                     <Link to={'/' + post.id} key={post.id} >
                         <Post
-                        title={post.title}
-                        author={post.author}
-                        clicked={() => this.postSelectedHandler(post.id)} />
-                    </Link>);
+                            // key={post.id}
+                            title={post.title}
+                            author={post.author}
+                            clicked={() => this.postSelectedHandler(post.id)} />
+                     </Link>
+                    );
             }  );
         }
 
         return (
-            <section className='Posts'>
-                {posts}
-            </section>
+            <div>   
+                <section className='Posts'>
+                    {posts}
+                </section>
+                <Route path={this.props.match.url + '/:id'} exact component={FullPost} />
+                {/* <Route path="/:id" exact component={FullPost} /> */}
+            </div>
         );
     }
 }
